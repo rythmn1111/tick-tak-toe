@@ -10,26 +10,39 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Home() {
   const [isX,setX] = useState(true); //to check whos chance is this
   const [sign, setSign] = useState(Array(9).fill(null));
+  let message;
+  if(calculateWinner(sign)){
+    message = "Winner is " + calculateWinner(sign);
+  }
+  else{
+    message = isX ? "Next Player is X" : "Next Player is O";
+  }
+
 
 
   function signLogic(i){
-   let sudoSign = sign.slice();
-    if(sign[i]){
+    let sudoSign = sign.slice();
+    
+    if(calculateWinner(sign) || sign[i]){
       return;
     }
     else if(isX){
       sudoSign[i] = "X";
       setX(!isX);
+      // console.log(sign);
     }
     else{
       sudoSign[i] = "O";
       setX(!isX);
+      // console.log(sign);
     }
     setSign(sudoSign);
+    const winner = calculateWinner(sign);
+    console.log(winner);
+    
   }
-  
   return <>
-  <h1>next chance: {isX? "X":"O"}</h1>
+  <h1>{message}</h1>
   <div>
     <Button value={sign[0]} onClickSign={()=>signLogic(0)}/>
     <Button value={sign[1]} onClickSign={()=>signLogic(1)}/>
@@ -55,4 +68,24 @@ function Button({value, onClickSign}){
     {value}   
   </button>
   </>
+}
+
+function calculateWinner(square){
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]
+  for(let i=0; i<lines.length; i++){
+    const [a,b,c] = lines[i];
+    if(square[a] && square[a] === square[b] && square[a] === square[c]){
+      return square[a];
+    }
+  }
+  return null;
 }
