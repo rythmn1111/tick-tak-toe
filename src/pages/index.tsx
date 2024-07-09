@@ -29,7 +29,7 @@ export default function Home() {
   }
   
   return <>
-  <h1>next chance: X</h1>
+  <h1>next chance: {isX? "X":"O"}</h1>
   <div>
     <Button value={sign[0]} onClickSign={()=>signLogic(0)}/>
     <Button value={sign[1]} onClickSign={()=>signLogic(1)}/>
