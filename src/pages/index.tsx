@@ -8,31 +8,51 @@ import { useState } from "react";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [isX,setX] = useState(true); //to check whos chance is this
+  const [sign, setSign] = useState(Array(9).fill(null));
+
+
+  function signLogic(i){
+   let sudoSign = sign.slice();
+    if(sign[i]){
+      return;
+    }
+    else if(isX){
+      sudoSign[i] = "X";
+      setX(!isX);
+    }
+    else{
+      sudoSign[i] = "O";
+      setX(!isX);
+    }
+    setSign(sudoSign);
+  }
+  
   return <>
   <h1>next chance: X</h1>
   <div>
-    <Button signn=""/>
-    <Button signn="X"/>
-    <Button signn="X"/>
+    <Button value={sign[0]} onClickSign={()=>signLogic(0)}/>
+    <Button value={sign[1]} onClickSign={()=>signLogic(1)}/>
+    <Button value={sign[2]} onClickSign={()=>signLogic(2)}/>
   </div>
   <div>
-    <Button signn=""/>
-    <Button signn="X"/>
-    <Button signn=""/>
+    <Button value={sign[3]} onClickSign={()=>signLogic(3)}/>
+    <Button value={sign[4]} onClickSign={()=>signLogic(4)}/>
+    <Button value={sign[5]} onClickSign={()=>signLogic(5)}/>
   </div>
   <div>
-    <Button signn=""/>
-    <Button signn=""/>
-    <Button signn=""/>
+    <Button value={sign[6]} onClickSign={()=>signLogic(6)}/>
+    <Button value={sign[7]} onClickSign={()=>signLogic(7)}/>
+    <Button value={sign[8]} onClickSign={()=>signLogic(8)}/>
   </div>
   </>
 }
     
 
-function Button({signn}){
+function Button({value, onClickSign}){
   return <>
-  <button className="buttonShape">
-    {signn}   
+  <button className="buttonShape" onClick={onClickSign}>
+    {value}   
   </button>
   </>
 }
